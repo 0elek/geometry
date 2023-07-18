@@ -1,7 +1,6 @@
 mod geo;
 use geo::line::Line;
 use geo::point::Point;
-use geo::vector::Vector;
 use geo::poly::Poly;
 
 mod utils;

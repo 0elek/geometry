@@ -1,4 +1,3 @@
-use std::os::fd::AsRawFd;
 use crate::utils::ccw;
 
 use crate::geo::point::Point;

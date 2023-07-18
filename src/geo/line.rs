@@ -1,4 +1,5 @@
 use std::os::fd::AsRawFd;
+use crate::utils::ccw;
 
 use crate::geo::point::Point;
 
@@ -34,30 +35,17 @@ impl Line {
     }
 
     pub fn intercept(&self, other: &Self) -> bool {
-    //     let ((line_1_x1, line_1_y1), (line_1_x2, line_1_y2)) = self.unpack();
-    //     let ((line_2_x1, line_2_y1), (line_2_x2, line_2_y2)) = other.unpack();
+        let a = self.point1;
+        let b = self.point2;
 
-    //     let a1 = line_1_y1 - line_1_y2;
-    //     let a2 = line_2_y1 - line_2_y2;
-    //     let b1 = line_1_x1 - line_1_x2;
-    //     let b2 = line_2_x1 - line_2_x2;
-    //     let c1 = a1 * line_1_x1 + b1 * line_1_y1;
-    //     let c2 = a2 * line_2_x1 + b2 * line_2_y1;
+        let c = other.point1;
+        let d = other.point2;
 
-    //     let det = a1 * b2 - a2 * b1;
+        ccw(a,c,d) != ccw(b,c,d) && ccw(a,b,c) != ccw(a,b,d)
 
-    //     if det == 0. {
-    //         print!("pararell");
-    //         return false;
-    //     }
-    
-    //     return true;
-    todo!()
     }
-    
-    
-    fn unpack (&self) -> ((f64, f64), (f64, f64)) {
-        (self.point1.unpack(), self.point2.unpack())
+    pub fn parallel(&self, other: &Self) -> bool {
+        self.slope() == other.slope()
     }
     
 }

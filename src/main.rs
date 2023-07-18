@@ -4,6 +4,9 @@ use geo::point::Point;
 use geo::vector::Vector;
 use geo::poly::Poly;
 
+mod utils;
+
+
 fn main() {
     let point1: Point = Point::new(0.0, 0.0);
     let point2: Point = Point::new(10.0, 0.0);
@@ -22,6 +25,6 @@ fn main() {
     println!("{:?} area", poly.area());
     println!("{:?} premiter", poly.perimeter());
     println!("{:?} slope", line.slope());
-
+    println!("{:?}", line.parallel(&line));
     println!("{:?} intercept", line2.intercept(&line3));
 }

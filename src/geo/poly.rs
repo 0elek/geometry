@@ -18,10 +18,10 @@ impl Poly {
             return Err("All connections must be positive".into());
         }
         if connections.iter().any(|&x| x as usize >= points.len()) {
-            return Err("All connections must be less than the number of points".into());
+            Err("All connections must be less than the number of points".into())
         } 
         else {
-            return Ok(Self { points, connections });
+            Ok(Self { points, connections })
         }
     }
     
@@ -54,6 +54,27 @@ impl Poly {
         }
 
         perimeter
+    }
+
+    pub fn center(&self) -> Point {
+        let n: usize = self.connections.len();
+        let mut x: f64 = 0.0;
+        let mut y: f64 = 0.0;
+
+        for i in 0..n {
+            let current_index: usize = self.connections[i] as usize;
+            let next_index: usize = self.connections[(i + 1) % n] as usize;
+
+            let current: &Point = &self.points[current_index];
+            let next: &Point = &self.points[next_index];
+
+            x += (current.x + next.x) * (current.x * next.y - next.x * current.y);
+            y += (current.y + next.y) * (current.x * next.y - next.x * current.y);
+        }
+
+        let area: f64 = self.area();
+
+        Point::new(x / (6.0 * area), y / (6.0 * area))
     }
 
 }

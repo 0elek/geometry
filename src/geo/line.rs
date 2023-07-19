@@ -1,8 +1,8 @@
 use crate::geo::point::Point;
 #[derive(Debug, Clone)]
 pub struct Line {
-    slope: f64,
-    point: Point,
+    pub slope: f64,
+    pub point: Point,
 }
 #[allow(dead_code)]
 pub enum Keep {

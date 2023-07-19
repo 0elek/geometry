@@ -46,17 +46,13 @@ fn main() {
     let segment = LineSegment::new(&Point::new(0.0, 0.0), &Point::new(10.0, 10.0));
     println!("{:?}", segment.midpoint());
 
-
-    
-
-
     let corner1 = Point::new(0.0, 0.0);
     let corner2 = Point::new(10.0, 0.0);
     let corner3 = Point::new(10.0, 10.0);
     let corner4 = Point::new(0.0, 10.0);
     let corner5 = Point::new(5.0, 15.0);
 
-    let poly = Poly::new(
+    let poly: Poly = Poly::new(
         vec![corner1, corner2, corner3, corner4, corner5],
         vec![0, 1, 2, 3, 4]
     ).unwrap();
@@ -65,12 +61,12 @@ fn main() {
     println!("{:?}", poly.center());
 
     let up_deg: f64 = 90.0; 
-    let down_deg: f64 = -90.0;
+    let down_deg: f64 = 45.0;
 
-    let vec_left: Vector = geo::vector::Vector::new(1.0, up_deg);
+    let vec_left: Vector = geo::vector::Vector::new(0.0, up_deg);
     let vec_right: Vector = geo::vector::Vector::new(1.0, down_deg);
 
-    let vec_res: Vector = vec_left.subtract(&vec_right);
+    let vec_res: Vector = vec_left.add(&vec_right);
     println!("{:?}", vec_res);
 
 }

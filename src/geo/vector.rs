@@ -1,7 +1,7 @@
 #[derive(Debug, Clone, Copy)]
 pub struct Vector{
-    magnitude: f64,
-    direction: f64,
+    pub magnitude: f64,
+    pub direction: f64,
 }
 #[allow(dead_code)]
 impl Vector {
@@ -20,6 +20,10 @@ impl Vector {
         self.magnitude * self.direction.sin()
     }
 
+    pub fn scale(&mut self, factor: f64) {
+        self.magnitude *= factor;
+    }
+    
     pub fn add(&self, other: &Self) -> Self {
         
         let x1 = self.x_component();

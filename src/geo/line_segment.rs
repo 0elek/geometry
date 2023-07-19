@@ -5,8 +5,8 @@ use crate::geo::point::Point;
 
 #[derive(Debug, Clone)]
 pub struct LineSegment {
-    point1: Point,
-    point2: Point
+    pub point1: Point,
+    pub point2: Point
 }
 
 #[allow(dead_code)]
@@ -69,7 +69,7 @@ impl LineSegment {
         let slope: f64 = self.slope();
         let point: Point = self.point1;
 
-        let mut new_line = Line::new(slope, &point);
+        let mut new_line: Line = Line::new(slope, &point);
         new_line.minimize_point();
         new_line
     }

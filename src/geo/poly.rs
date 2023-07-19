@@ -4,8 +4,8 @@ use crate::geo::point::Point;
 
 #[derive(Debug, Clone)]
 pub struct Poly{
-    points: Vec<Point>,
-    connections: Vec<i32>
+    pub points: Vec<Point>,
+    pub connections: Vec<i32>
 }
 
 impl Poly {

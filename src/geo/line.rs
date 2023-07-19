@@ -1,50 +1,57 @@
-use crate::utils::ccw;
-
 use crate::geo::point::Point;
-
 #[derive(Debug, Clone)]
 pub struct Line {
-    point1: Point,
-    point2: Point
+    slope: f64,
+    point: Point,
 }
-
+#[allow(dead_code)]
+pub enum Keep {
+    Point1,
+    Point2,
+}
+#[allow(dead_code)]
 impl Line {
-    pub fn new(point1: &Point, point2: &Point) -> Self{
-        return Line { 
-            point1: point1.clone(), 
-            point2: point2.clone() };
+    pub fn new(slope: f64, point: &Point) -> Self {
+        return Line {
+            slope,
+            point: point.clone(),
+        };
     }
 
-    pub fn len(&self) -> f64{
+    pub fn intercept(&self, other: &Self) -> Option<Point> {
+        let (a, b) = self.point.unpack();
+        let (c, d) = other.point.unpack();
+        let e = self.slope;
+        let f = other.slope;
 
-        let (x1, y1) = self.point1.unpack();
-        let (x2, y2) = self.point2.unpack();
+        if e == f {
+            return None;
+        }
 
-        ((x2 - x1).powi(2) + (y2 - y1).powi(2)).sqrt()
+        let x = (d - b + e * a - f * c) / (e - f);
+        let y = e * (x - a) + b;
 
-    }
-
-    pub fn slope(&self) -> f64{
-
-        let (x1, y1) = self.point1.unpack();
-        let (x2, y2) = self.point2.unpack();
-
-        (y2 - y1) / (x2 - x1)
-
-    }
-
-    pub fn intercept(&self, other: &Self) -> bool {
-        let a = self.point1;
-        let b = self.point2;
-
-        let c = other.point1;
-        let d = other.point2;
-
-        ccw(a,c,d) != ccw(b,c,d) && ccw(a,b,c) != ccw(a,b,d)
-
+        return Some(Point::new(x, y));
     }
     pub fn parallel(&self, other: &Self) -> bool {
-        self.slope() == other.slope()
+        self.slope == other.slope
     }
-    
+
+    pub fn perpendicular(&self, other: &Self) -> bool {
+        self.slope * other.slope == -1.0
+    }
+
+    pub fn minimize_point(&mut self) {
+        let (x, y) = self.point.unpack();
+
+        let x = if self.slope == 0.0 {
+            0.0
+        } else {
+            x - (y / self.slope)
+        };
+        let y = if self.slope == 0.0 { y } else { 0.0 };
+
+        self.point = Point::new(x, y);
+    }
+
 }

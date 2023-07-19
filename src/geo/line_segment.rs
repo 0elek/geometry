@@ -9,11 +9,12 @@ pub struct LineSegment {
     point2: Point
 }
 
+#[allow(dead_code)]
 impl LineSegment {
     pub fn new(point1: &Point, point2: &Point) -> Self{
-        return LineSegment { 
-            point1: point1.clone(), 
-            point2: point2.clone() };
+        LineSegment { 
+            point1: *point1, 
+            point2: *point2 }
     }
 
     pub fn len(&self) -> f64{
@@ -43,17 +44,34 @@ impl LineSegment {
         ccw(a,c,d) != ccw(b,c,d) && ccw(a,b,c) != ccw(a,b,d)
 
     }
+
     pub fn parallel(&self, other: &Self) -> bool {
         self.slope() == other.slope()
     }
 
+    pub fn midpoint(&self) -> Point{
+        let (x1, y1) = self.point1.unpack();
+        let (x2, y2) = self.point2.unpack();
+
+        Point::new((x1 + x2) / 2.0, (y1 + y2) / 2.0)
+    }
+
+    pub fn bisect(&self) -> (LineSegment, LineSegment) {
+        let midpoint = self.midpoint();
+
+        let line1 = LineSegment::new(&self.point1, &midpoint);
+        let line2 = LineSegment::new(&self.point2, &midpoint);
+
+        (line1, line2)
+    }
+
     pub fn to_line(&self) -> Line{
         let slope: f64 = self.slope();
-        let point: Point = self.point1.clone();
+        let point: Point = self.point1;
 
-        let mut l = Line::new(slope, &point);
-        l.minimize_point();
-        l
+        let mut new_line = Line::new(slope, &point);
+        new_line.minimize_point();
+        new_line
     }
     
 }

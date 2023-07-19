@@ -12,10 +12,10 @@ pub enum Keep {
 #[allow(dead_code)]
 impl Line {
     pub fn new(slope: f64, point: &Point) -> Self {
-        return Line {
+        Line {
             slope,
-            point: point.clone(),
-        };
+            point: *point,
+        }
     }
 
     pub fn intercept(&self, other: &Self) -> Option<Point> {
@@ -31,7 +31,7 @@ impl Line {
         let x = (d - b + e * a - f * c) / (e - f);
         let y = e * (x - a) + b;
 
-        return Some(Point::new(x, y));
+        Some(Point::new(x, y))
     }
     pub fn parallel(&self, other: &Self) -> bool {
         self.slope == other.slope
